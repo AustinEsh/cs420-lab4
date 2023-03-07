@@ -18,4 +18,19 @@ __global__ void reduction(float *out, float *in, unsigned size)
     ********************************************************************/
 
     // INSERT KERNEL CODE HERE
+    __shared__ float input_s[BLOCK_SIZE];
+    unsigned int segment = 2 * blockDim.x * blockDim.x;
+    unsigned int t = segment + threadIdx.x;
+    unsigned int i = threadIdx.x;
+    input_s[i] = in[t] + in[t + BLOCK_SIZE];
+
+    for (unsigned int stride = blockDim.x / 2; stride >= 1; stride /= 2){
+        __syncthreads();
+        if (i < stride){
+            input_s[i] += input_s[i + stride];
+        }
+    }
+    if (i == 0){
+        atomicAdd(out, input_s[0]);
+    }
 }
