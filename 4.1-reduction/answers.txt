@@ -1,0 +1,5 @@
+1. lg(BLOCK_SIZE)
+2. 
+    a. The minimum is 1
+    b. The maximum is lg(BLOCK_SIZE)
+    c. The average is (BLOCK_SIZE - 1) * 2 / BLOCK_SIZE

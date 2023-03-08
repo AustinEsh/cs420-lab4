@@ -19,7 +19,7 @@ __global__ void reduction(float *out, float *in, unsigned size)
 
     // INSERT KERNEL CODE HERE
     __shared__ float input_s[BLOCK_SIZE];
-    unsigned int segment = 2 * blockDim.x * blockDim.x;
+    unsigned int segment = 2 * blockDim.x * blockIdx.x;
     unsigned int t = segment + threadIdx.x;
     unsigned int i = threadIdx.x;
     input_s[i] = in[t] + in[t + BLOCK_SIZE];
